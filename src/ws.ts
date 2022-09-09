@@ -6,13 +6,12 @@ const ws = (server: any) => {
    
     //connection
     io.on('connection', (socket) => {
-        console.log('conectado')
-     
-        io.to(socket.id).emit('msg', `${socket.id} bem vindo!`)
+        console.log('conectado ao websocket')
         
         socket.on('msg',(ev)=>{
-            socket.emit('msg',ev)
+           console.log(`[${socket.id}] : ${ev}`)
         })
+       
     })
     
 }

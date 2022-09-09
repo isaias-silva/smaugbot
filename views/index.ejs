@@ -5,17 +5,53 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
     <title>Smaugbot</title>
 </head>
 
 <body>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
+    <header>
+        <div class="nav left">
 
-        var socket = io()
-        socket.on('msg',(msg)=>{console.log(msg)})
-      socket.emit('msg',Math.random()*100)
-    </script>
+            <h1>SmaugBot</h1>
+            <img src="./img/logo.png" alt="logo">
+        </div>
+        <div class="nav right">
+            <ul>
+                <li><a href="https://github.com/isaias-silva/smaugbot" target="_blank">github</a></li>
+                <li><a href="https://github.com/isaias-silva/" target="_blank">criador</a></li>
+
+            </ul>
+        </div>
+    </header>
+    <section>
+        <article>
+            <h2>Smaugbot v1.0</h2>
+            <p>smaugbot é uma automação que dispara mensagens automáticas para números no whatsapp e captura contatos
+                para um grupo.</p>
+            <div class="form">
+                <img src="./img/qrcode-sleep.png"
+                    alt="dragon" class="qrcode un" >
+                <div class="control">
+                    <button onclick="alert('oi')">
+                        disparo em massa
+                    </button>
+                    <br/>
+                    <button>
+                        pegar contatos de grupo
+                    </button>
+                    <div id="opts">
+
+                    </div>
+                </div>
+            </div>
+        </article>
+    </section>
+    <footer>
+        by zack&copy;
+    </footer>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/wscom.js"></script>
 </body>
 
 </html>
