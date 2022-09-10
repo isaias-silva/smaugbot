@@ -9,7 +9,11 @@ socket.on('msg', (msg) => { console.log(msg) })
 socket.on('bot', (msg) => {
     if (msg == 'qrcode') {
         qrcode.src = './img/qrcode-start.png'
+        qrcode.setAttribute('class','qrcode')
     }
+    if(msg=='closecon')
+    qrcode.src = './img/qrcode-conected.png'
+    qrcode.setAttribute('class','qrcode')
 })
 
 

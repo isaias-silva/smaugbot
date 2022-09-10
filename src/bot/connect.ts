@@ -10,12 +10,14 @@ import path from "path";
 export const connect = async (io:any) => {
 
     const { state, saveState } = useSingleFileAuthState(
-        path.resolve(__dirname, "..", "cache", "auth.json")
+        path.resolve(__dirname,".." ,"..", "cache", "auth.json")
     );
 
     const socket = makeWaSocket({
+        printQRInTerminal: false,
         auth: state,
-        defaultQueryTimeoutMs: undefined,
+
+    defaultQueryTimeoutMs: undefined,
 
 
     });
