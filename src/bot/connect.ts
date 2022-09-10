@@ -15,7 +15,7 @@ export const connect = async (io:any) => {
 
     const socket = makeWaSocket({
         printQRInTerminal: false,
-        auth: state,
+        auth:state ,
 
     defaultQueryTimeoutMs: undefined,
 
