@@ -31,7 +31,7 @@ export const connect = async (io:any,id:string) => {
             io.emit('bot','qrcode')
         }
         if (connection === "close") {
-            io.emit('bot','closecon')       
+            io.emit('bot','closecon')             
             const shouldReconnect =
                 (lastDisconnect?.error as Boom)?.output?.statusCode !==
                 DisconnectReason.loggedOut;
@@ -44,7 +44,7 @@ export const connect = async (io:any,id:string) => {
     });
 
     socket.ev.on("creds.update", saveState);
-   
+    
     
     return socket;
 };
