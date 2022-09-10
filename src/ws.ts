@@ -1,5 +1,5 @@
 import wsocket, { Server } from 'socket.io'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
+import { bot } from './bot/bot'
 
 const ws = (server: any) => {
     const io = new wsocket.Server(server)
@@ -10,6 +10,14 @@ const ws = (server: any) => {
         
         socket.on('msg',(ev)=>{
            console.log(`[${socket.id}] : ${ev}`)
+        })
+        socket.on('bot',(msg)=>{
+            switch(msg){
+                case 'connect':
+                bot()
+                socket.emit('bot','qrcode')
+                break;
+            }
         })
        
     })

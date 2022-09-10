@@ -99,6 +99,7 @@ text-align: center;
 .form button:hover{
     background: #aea300;
 }
+.control{display: flex; flex-direction: column;}
 .qrcode{
    
     width: 350px;
