@@ -104,7 +104,23 @@ text-align: center;
    
     width: 350px;
 }
+
 .qrcode.un:hover{
 filter:opacity(70%);
 cursor: pointer;
+}
+.qrcode.un{
+    
+}
+.qrcode.loading{
+    animation: rotate infinite 1s;
+}
+
+@keyframes rotate{
+    0%{
+    transform: rotate(360deg);
+    }
+    100%{
+        transform: rotate(0deg);
+        }
 }
