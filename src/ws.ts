@@ -14,8 +14,8 @@ const ws = (server: any) => {
         socket.on('bot',(msg)=>{
             switch(msg){
                 case 'connect':
-                bot()
-                socket.emit('bot','qrcode')
+                bot(socket)
+    
                 break;
             }
         })

@@ -1,6 +1,6 @@
 import { connect } from "./connect";
 
-export async function bot(){
+export async function bot(io:any){
 
-    const socket = await connect()
+    const socket = await connect(io)
 }
