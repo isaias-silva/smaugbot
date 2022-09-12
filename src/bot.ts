@@ -7,15 +7,16 @@ export class Bot {
         const socket = await new Socket().connect()
         socket.ev.on("messages.upsert", async (message) => {
             const [webMessage] = message.messages
-            const botData = await this.getbotdata(socket, webMessage)
+            const botData = await this.getBotData(socket, webMessage)
             const { sendImage, sendText, reply, remoteJid, participant } = botData
-            if(participant){
-                return
-            }
-            await reply('resposta automatica bot on!')
+            
+            
         })
     }
-    getbotdata = async (socket: any, webMessage: proto.IWebMessageInfo): Promise<IbotData> => {
+    checkComand=()=>{
+        
+    }
+    getBotData = async (socket: any, webMessage: proto.IWebMessageInfo): Promise<IbotData> => {
         const { remoteJid, participant } = webMessage.key
 
         const sendText = async (txt: string) => {
