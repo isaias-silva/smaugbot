@@ -1,6 +1,7 @@
 import { proto } from "@adiwajshing/baileys";
 
 export interface IbotData {
+    socket:any,
     remoteJid: string|null |undefined,
     participant:string |null |undefined,
     sendText: (txt: string) => Promise<proto.WebMessageInfo>
