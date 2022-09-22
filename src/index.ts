@@ -1,8 +1,20 @@
-import { Bot } from "./bot/Bot";
-import { App } from "./server/App";
+import { app, BrowserWindow, nativeImage } from 'electron'
+import server from './io/WebSocket'
+server
+let mainwindow;
 
-const bot = new Bot('smaug', '!')
-bot.start()
+/*const createWindow = () => {
+    const win = new BrowserWindow({
+        width: 800,
+        height: 600
+    })
+}
+app.on("ready",()=>{
+    mainwindow=new BrowserWindow({
+        
+    })
+    mainwindow.loadURL(`http://localhost:8080`)
+})*/
 
 
  
