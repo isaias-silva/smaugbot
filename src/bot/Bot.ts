@@ -10,7 +10,7 @@ export class Bot implements IbotData {
     webMessage: proto.WebMessageInfo | undefined
     remoteJid: string | undefined | null
     participant: string | null | undefined;
-    constructor(name: string, prefix: string) {
+    constructor(name: string, prefix: string,io:any) {
         this.name = name;
         this.prefix = prefix;
      

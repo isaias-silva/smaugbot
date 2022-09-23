@@ -6,6 +6,7 @@
   "author": "isaias-silva <zackblackmangold@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "dev":"ts-node-dev ./src/index.ts",
     "build": "tsc",
     "start": "tsc && electron ./build/index.js"
   },

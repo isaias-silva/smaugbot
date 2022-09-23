@@ -1,27 +1,39 @@
 import http from 'http'
 import express from 'express'
 import path from 'path'
-const PORT =process.env.PORT || 8080
-
-const app = express()
-const server = new http.Server(app)
-const io = require('socket.io')(server);
 
 
 
-app.set("view engine","ejs")
-app.get('/', (req, res) => {
-res.render('index.ejs')
-})
-io.on('connection', function (socket: any) {
-    console.log('connected')
-    socket.on('msg', function (msg: any) {
-       console.log(msg)
-    });
-});
 
+export class App {
+    private io;
+    private app;
+    private server;
+    private port;
+    constructor(port: number) {
+        this.port=process.env.PORT || port
+        this.app = express()
+        this.server = new http.Server(this.app);
+        this.io = require('socket.io')(this.server);
+    }
+    start=()=>{
+        this.routesAndConfig()
+        this.webscsocketCommunication()
+        this.server.listen(this.port,()=>{console.log(`server on in port ${8080}`)})
+    }
+   private routesAndConfig=()=>{
+        this.app.set("view engine", "ejs")
+        this.app.get('/', (req, res) => {
+            res.render('index.ejs')
+        })
+    }
+    private webscsocketCommunication=()=>{
+        this.io.on('connection', function (socket: any) {
+            console.log('connected')
+            socket.on('msg', function (msg: any) {
+                console.log(msg)
+            });
+        });
+    }
 
-
-server.listen(PORT, () => { console.log(PORT) })
-
-export default server
+}

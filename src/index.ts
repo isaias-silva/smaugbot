@@ -1,8 +1,10 @@
 import { app, BrowserWindow, nativeImage } from 'electron'
-import server from './io/WebSocket'
-server
-let mainwindow;
+import { App } from './io/WebSocket';
 
+
+let mainwindow;
+const server=new App(8080)
+server.start()
 /*const createWindow = () => {
     const win = new BrowserWindow({
         width: 800,
