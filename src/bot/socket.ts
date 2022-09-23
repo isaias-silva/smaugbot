@@ -3,18 +3,20 @@ import makeWaSocket, {
     useSingleFileAuthState,
 } from "@adiwajshing/baileys";
 import { Boom } from "@hapi/boom";
+import { query } from "express";
 import path from "path";
-
+import qr from 'qrcode'
 
 export class Socket {
-    connect = async () => {
+    connect = async (io: any) => {
 
         const { state, saveState } = useSingleFileAuthState(
-            path.resolve(__dirname, "..", "cache", "auth.json")
+            path.resolve("cache", "auth.json")
+
         );
 
         const socket = makeWaSocket({
-            printQRInTerminal: true,
+
             auth: state,
             defaultQueryTimeoutMs: undefined,
 
@@ -23,19 +25,32 @@ export class Socket {
 
         socket.ev.on("connection.update", async (update) => {
             const { connection, lastDisconnect } = update;
+
+
+
+            if (update.qr) {
+                await qr.toFile(path.resolve('public', 'img', 'qrcode-start.png'), update.qr)
+                io.emit('conn', 'init')
+            }
+
+            if (connection == "connecting") {
+                io.emit('conn', 'connecting')
+            }
             if (connection === "close") {
                 const shouldReconnect =
                     (lastDisconnect?.error as Boom)?.output?.statusCode !==
                     DisconnectReason.loggedOut;
+                io.emit('conn', 'close')
 
                 if (shouldReconnect) {
-                    await this.connect();
+                    await this.connect(io);
                 }
+
             }
         });
 
         socket.ev.on("creds.update", saveState);
-
+      
         return socket;
     };
 }

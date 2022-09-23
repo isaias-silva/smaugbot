@@ -1,0 +1,32 @@
+*{
+    padding: 0;
+    margin: 0;
+    
+}
+header{
+    width: 100%;
+    background-color: rgba(255, 51, 0, 0.628);
+    text-align: center;
+}
+#qrcode{
+    border:1px solid #000;
+    width: 300px;
+    height: 300px;
+}
+#qrcode img{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.rotate{
+    animation:load 1s infinite;
+}
+@keyframes load {
+    0%{
+        transform: rotate(0deg);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}

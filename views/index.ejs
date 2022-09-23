@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/style.css">
     <title>Document</title>
 </head>
+
 <body>
-    <h1>hekdfks</h1>
+    <header>
+        <h1>smaug bot</h1>
+
+    </header>
+    <section>
+        <div id="qrcode">
+            <img src="./img/icon.png" alt="">
+        </div>
+        <p>escaneie o qrcode no seu celular para iniciar(ao fechar o aplicativo a conexão é encerrada.)</p>
+
+    </section>
     <script src="/socket.io/socket.io.js"></script>
     <script>
-        const sock=io()
-     sock.emit('msg','xl')
+        const sock = io()
+
+        sock.on('conn', (msg) => {
+        console.log(msg)
+            const img=document.querySelector('#qrcode')
+            if(msg=='init'){
+            img.innerHTML=`<img src='./img/qrcode-start.png'>`
+            
+            }
+            if(msg=='connecting'){
+                img.innerHTML=`<p>startooooo</p>`
+            }
+            if(msg=='close'){
+            
+            img.innerHTML=`<img class="rotate" src='https://imagensemoldes.com.br/wp-content/uploads/2020/07/Imagem-Loading-PNG-1024x1024.png'>`
+        }
+
+        })
     </script>
 </body>
+
 </html>

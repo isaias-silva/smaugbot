@@ -2,7 +2,7 @@ import { proto } from "@adiwajshing/baileys"
 import { Socket } from "./socket"
 import fs from 'fs'
 import { IbotData } from "../interfaces/IbotData"
-
+import path from 'path'
 export class Bot implements IbotData {
     name: string;
     prefix: string;
@@ -10,19 +10,25 @@ export class Bot implements IbotData {
     webMessage: proto.WebMessageInfo | undefined
     remoteJid: string | undefined | null
     participant: string | null | undefined;
-    constructor(name: string, prefix: string,io:any) {
+    io: any
+    constructor(name: string, prefix: string, io: any) {
         this.name = name;
         this.prefix = prefix;
-     
+        this.io = io
     }
-start=async ()=>{
-    this.socket = await new Socket().connect()
-    this.socket.ev.on("messages.upsert", async (message: any) => {
-        this.webMessage = message.messages[0]
-        this.remoteJid = this.webMessage?.key.remoteJid
-        this.participant = this.webMessage?.key.participant
-    })
-}
+    start = async () => {
+    
+        const auth = fs.access(path.resolve('cache', 'auth.json'),(err)=>{
+            err?console.log('não escaneado'):fs.unlinkSync(path.resolve('cache', 'auth.json'))
+        })
+        
+        this.socket = await new Socket().connect(this.io)
+        this.socket.ev.on("messages.upsert", async (message: any) => {
+            this.webMessage = message.messages[0]
+            this.remoteJid = this.webMessage?.key.remoteJid
+            this.participant = this.webMessage?.key.participant
+        })
+    }
     checkComand = (message: proto.IMessage) => {
         const texto = message?.conversation ||
             message?.imageMessage?.caption ||
