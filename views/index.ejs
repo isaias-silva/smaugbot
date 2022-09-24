@@ -14,13 +14,21 @@
         <h1>smaug bot</h1>
 
     </header>
-    <section>
-        <div id="qrcode">
-            <img src="./img/icon.png" alt="">
-        </div>
-        <p>escaneie o qrcode no seu celular para iniciar(ao fechar o aplicativo a conexão é encerrada.)</p>
+    <div class="conteudo">
+        <aside>
+            <div id="qrcode">
+                <img src="./img/icon.png" alt="">
+            </div>
+            <p id="info">escaneie o qrcode no seu celular para iniciar(ao fechar o aplicativo a conexão é encerrada.)</p>
+            <div class="buttons">
+             
+            </div>
+        </aside>
+        <section>
+    
+        </section>
 
-    </section>
+    </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const sock = io()
@@ -28,6 +36,8 @@
         sock.on('conn', (msg) => {
         console.log(msg)
             const img=document.querySelector('#qrcode')
+            const info=document.querySelector('#info')
+           const buttons=document.querySelector('.buttons')
             if(msg=='init'){
             img.innerHTML=`<img src='./img/qrcode-start.png'>`
             
@@ -38,9 +48,9 @@
 
             }
             if(msg=='finish'){
-            
+                buttons.innerHTML=`<button id="disconnect">desconectar</button>`
                 img.innerHTML=` <img class="on" src="./img/icon.png" alt="">`
-  
+                info.innerText=`🟢conectado`
             }
 
         })
