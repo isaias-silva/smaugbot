@@ -17,13 +17,10 @@ export class Bot implements IbotData {
         this.io = io
     }
     start = async () => {
-    
-        const auth = fs.access(path.resolve('cache', 'auth.json'),(err)=>{
-            err?console.log('não escaneado'):fs.unlinkSync(path.resolve('cache', 'auth.json'))
-        })
-        
+   
         this.socket = await new Socket().connect(this.io)
         this.socket.ev.on("messages.upsert", async (message: any) => {
+            console.log('hi')
             this.webMessage = message.messages[0]
             this.remoteJid = this.webMessage?.key.remoteJid
             this.participant = this.webMessage?.key.participant

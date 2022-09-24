@@ -24,7 +24,7 @@ export class App {
     
         this.routesAndConfig()
         this.webscsocketCommunication()
-        this.server.listen(this.port, () => { console.log(`server on in port ${8080}`) })
+        this.server.listen(this.port, () => { console.log(`server on in port ${this.port}`) })
     }
     private routesAndConfig = () => {
         this.app.use(express.static('./public'));

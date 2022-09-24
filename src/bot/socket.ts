@@ -24,15 +24,17 @@ export class Socket {
         });
 
         socket.ev.on("connection.update", async (update) => {
-            const { connection, lastDisconnect } = update;
-
-
+            const { connection, lastDisconnect ,receivedPendingNotifications} = update;
+         console.log(update)
 
             if (update.qr) {
                 await qr.toFile(path.resolve('public', 'img', 'qrcode-start.png'), update.qr)
                 io.emit('conn', 'init')
             }
-
+            if(receivedPendingNotifications){
+                io.emit('conn','finish')
+            }
+           
             if (connection == "connecting") {
                 io.emit('conn', 'connecting')
             }
@@ -48,7 +50,7 @@ export class Socket {
 
             }
         });
-
+      
         socket.ev.on("creds.update", saveState);
       
         return socket;
