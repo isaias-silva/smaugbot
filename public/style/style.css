@@ -65,7 +65,43 @@ aside{
     animation:alive 1s infinite;
 
 }
-
+section{
+    
+    position: absolute;
+    right: 0;
+    width: 70%;
+    background-color: rgba(0, 0, 0, 0.508);
+    height: 100%;
+}
+section h2{
+    margin-top: 10px;
+    text-align: center;
+    color: #fff;
+}
+#conversas{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.msgs{
+    width: 40%;
+    background-color: #fff;
+    display: flex;
+    margin: 2px;
+    height: 50px;
+    align-items: center;
+    border-radius: 10px;
+    padding: 2px;
+}
+.msgs img{
+    width: 40px;
+    margin:2px;
+    height: 40px;
+    border-radius: 100%;
+    border:1px solid #000;
+}
 @keyframes load {
     0%{
         transform: rotate(0deg);

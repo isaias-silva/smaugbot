@@ -3,6 +3,7 @@ import { Socket } from "./socket"
 import fs from 'fs'
 import { IbotData } from "../interfaces/IbotData"
 import path from 'path'
+import { ImessageForBrowser } from "../interfaces/ImessageForBrowser"
 export class Bot implements IbotData {
     name: string;
     prefix: string;
@@ -20,10 +21,24 @@ export class Bot implements IbotData {
    
         this.socket = await new Socket().connect(this.io)
         this.socket.ev.on("messages.upsert", async (message: any) => {
-            console.log('hi')
+           
             this.webMessage = message.messages[0]
+        
             this.remoteJid = this.webMessage?.key.remoteJid
             this.participant = this.webMessage?.key.participant
+           
+            if(this.webMessage?.message && !this.participant){
+                const msgBrow:ImessageForBrowser={
+                    perfil:await this.socket.profilePictureUrl(this.remoteJid,"preview"),
+                    numero:this.remoteJid?.split('@')[0],
+                    message:this.webMessage.message.conversation
+                    
+                }
+                console.log(msgBrow)
+                this.io.emit('msgTxt',msgBrow)
+            }
+        
+        
         })
     }
     checkComand = (message: proto.IMessage) => {
