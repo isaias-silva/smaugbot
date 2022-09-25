@@ -30,6 +30,10 @@ conversa.innerHTML+=`   <div class="msgs">
 <p>
    <b>${msg.numero}</b>: ${msg.message}
 </p>
+<div class="control">
+<button class='send''>&#9993;</button>
+<button  class='close'>&#10008;</button>
+</div>
 </div>`
 
 })
