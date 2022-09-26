@@ -110,11 +110,11 @@ section h2{
     width: 100px;
 display: inline-block;
 }
-.control button{
+button.close,button.send{
     width: 25px;
-    min-height: 25px;
+    max-height: 25px;
     margin: 2px;
-  border-radius: 10px;
+  border-radius: 30px;
     background-color: gray;
     border: none;
     font-size: 18px;

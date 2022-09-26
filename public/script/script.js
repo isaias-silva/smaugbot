@@ -1,5 +1,8 @@
+
 const sock = io()
 
+
+//eventos websocket
 sock.on('conn', (msg) => {
 console.log(msg)
     const img=document.querySelector('#qrcode')
@@ -30,10 +33,21 @@ conversa.innerHTML+=`   <div class="msgs">
 <p>
    <b>${msg.numero}</b>: ${msg.message}
 </p>
-<div class="control">
-<button class='send''>&#9993;</button>
+<button value='${JSON.stringify(msg)}' onclick='response(this.value)' class='send'>&#9993;</button>
 <button  class='close'>&#10008;</button>
 </div>
 </div>`
 
 })
+
+//buttons events
+function response(msg){
+    const mesage=JSON.parse(msg)
+    let message=prompt(`digite a resposta para ${mesage.numero}`)
+    
+  
+    if(mesage.numero && message){
+        const response={message,numero:mesage.numero,webmsg:mesage.webMessage}
+        sock.emit('msg',response)
+    }
+}

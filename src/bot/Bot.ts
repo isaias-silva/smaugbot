@@ -18,27 +18,27 @@ export class Bot implements IbotData {
         this.io = io
     }
     start = async () => {
-   
+
         this.socket = await new Socket().connect(this.io)
         this.socket.ev.on("messages.upsert", async (message: any) => {
-           
+
             this.webMessage = message.messages[0]
-        
+
             this.remoteJid = this.webMessage?.key.remoteJid
             this.participant = this.webMessage?.key.participant
-           
-            if(this.webMessage?.message && !this.participant){
-                const msgBrow:ImessageForBrowser={
-                    perfil:await this.socket.profilePictureUrl(this.remoteJid,"preview"),
-                    numero:this.remoteJid?.split('@')[0],
-                    message:this.webMessage.message.conversation
-                    
+
+            if (this.webMessage?.message && !this.participant) {
+                const msgBrow: ImessageForBrowser = {
+                    perfil: await this.socket.profilePictureUrl(this.remoteJid, "preview"),
+                    numero: this.remoteJid?.split('@')[0],
+                    message: this.webMessage.message.conversation || this.webMessage.message.extendedTextMessage?.text,
+                    webMessage: this.webMessage
                 }
                 console.log(msgBrow)
-                this.io.emit('msgTxt',msgBrow)
+                this.io.emit('msgTxt', msgBrow)
             }
-        
-        
+
+
         })
     }
     checkComand = (message: proto.IMessage) => {
@@ -68,12 +68,12 @@ export class Bot implements IbotData {
     }
 
 
-    sendText = async (txt: string) => {
-        return this.socket.sendMessage(this.remoteJid, { text: txt })
+    sendText = async (txt: string,remoteJid:string) => {
+        return this.socket.sendMessage(remoteJid, { text: txt })
     }
     //responder mensagem
-    reply = async (txt: string) => {
-        return this.socket.sendMessage(this.remoteJid, { text: txt }, { quoted: this.webMessage })
+    reply = async (txt: string,remoteJid:string,webMessage:proto.IWebMessageInfo) => {
+        return this.socket.sendMessage(remoteJid, { text: txt }, { quoted: webMessage })
     }
     //enviar imagem
     sendImage = async (pathOrBuffer: Buffer | string, caption?: string, isReply?: boolean) => {

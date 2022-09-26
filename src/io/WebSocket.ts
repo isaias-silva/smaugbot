@@ -37,11 +37,15 @@ export class App {
         })
     }
     private webscsocketCommunication = () => {
+        const bot=this.bot
         this.io.on('connection', function (socket: any) {
             console.log('connected')
             socket.on('msg', function (msg: any) {
-                console.log(msg)
+                let number=msg.numero+'@s.whatsapp.net'
+                console.log(number)
+                return bot.reply(msg.message,number,msg.webmsg)
             });
+            
         });
     }
 
