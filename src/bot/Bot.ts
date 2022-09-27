@@ -12,14 +12,16 @@ export class Bot implements IbotData {
     remoteJid: string | undefined | null
     participant: string | null | undefined;
     io: any
-    constructor(name: string, prefix: string, io: any) {
+    id:any
+    constructor(name: string, prefix: string, io: any,id:any) {
         this.name = name;
         this.prefix = prefix;
         this.io = io
+      this.id=id;
     }
     start = async () => {
 
-        this.socket = await new Socket().connect(this.io)
+        this.socket = await new Socket().connect(this.io,this.id)
         this.socket.ev.on("messages.upsert", async (message: any) => {
 
             this.webMessage = message.messages[0]
@@ -28,13 +30,19 @@ export class Bot implements IbotData {
             this.participant = this.webMessage?.key.participant
 
             if (this.webMessage?.message && !this.participant) {
+              const msg=this.webMessage.message.conversation || 
+              this.webMessage.message.extendedTextMessage?.text ||
+              this.webMessage.message.imageMessage?.caption ||
+              this.webMessage.message.documentMessage?.caption||
+              this.webMessage.message.videoMessage?.caption
+              if(!msg){return}
                 const msgBrow: ImessageForBrowser = {
                     perfil: await this.socket.profilePictureUrl(this.remoteJid, "preview"),
                     numero: this.remoteJid?.split('@')[0],
-                    message: this.webMessage.message.conversation || this.webMessage.message.extendedTextMessage?.text,
+                    message: msg,
                     webMessage: this.webMessage
                 }
-                console.log(msgBrow)
+                
                 this.io.emit('msgTxt', msgBrow)
             }
 
@@ -73,6 +81,9 @@ export class Bot implements IbotData {
     }
     //responder mensagem
     reply = async (txt: string,remoteJid:string,webMessage:proto.IWebMessageInfo) => {
+        console.log(txt)
+        console.log(remoteJid)
+        console.log(webMessage)
         return this.socket.sendMessage(remoteJid, { text: txt }, { quoted: webMessage })
     }
     //enviar imagem

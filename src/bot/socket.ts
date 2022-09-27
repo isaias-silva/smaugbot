@@ -8,7 +8,7 @@ import path from "path";
 import qr from 'qrcode'
 
 export class Socket {
-    connect = async (io: any) => {
+    connect = async (io: any,id:any) => {
 
         const { state, saveState } = useSingleFileAuthState(
             path.resolve("cache", "auth.json")
@@ -29,14 +29,16 @@ export class Socket {
 
             if (update.qr) {
                 await qr.toFile(path.resolve('public', 'img', 'qrcode-start.png'), update.qr)
-                io.emit('conn', 'init')
+                io.to(id).emit('conn', 'init')
             }
             if(receivedPendingNotifications){
-                io.emit('conn','finish')
+               
+                io.to(id).emit('conn','finish')
+                console.log("id: " +id)
             }
            
             if (connection == "connecting") {
-                io.emit('conn', 'connecting')
+                io.to(id).emit('conn', 'connecting')
             }
             if (connection === "close") {
                 const shouldReconnect =
@@ -45,7 +47,7 @@ export class Socket {
                 io.emit('conn', 'close')
 
                 if (shouldReconnect) {
-                    await this.connect(io);
+                    await this.connect(io,id);
                 }
 
             }

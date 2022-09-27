@@ -1,8 +1,11 @@
 
 const sock = io()
-
+let myid;
 
 //eventos websocket
+sock.on('connection',(id)=>{
+console.log(id)
+})
 sock.on('conn', (msg) => {
 console.log(msg)
     const img=document.querySelector('#qrcode')
@@ -47,7 +50,10 @@ function response(msg){
     
   
     if(mesage.numero && message){
+       
         const response={message,numero:mesage.numero,webmsg:mesage.webMessage}
+       
+        console.log(response)
         sock.emit('msg',response)
     }
 }

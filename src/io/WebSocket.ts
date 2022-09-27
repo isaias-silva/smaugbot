@@ -1,11 +1,6 @@
 import http from 'http'
 import express from 'express'
-import path from 'path'
 import { Bot } from '../bot/Bot';
-import { fstat } from 'original-fs';
-
-
-
 
 export class App {
     private io;
@@ -13,17 +8,20 @@ export class App {
     private server;
     private port;
     private bot: any;
+  
     constructor(port: number) {
+    
         this.port = process.env.PORT || port
         this.app = express()
         this.server = new http.Server(this.app);
         this.io = require('socket.io')(this.server);
-        this.bot = new Bot('smaug', '!', this.io)
+        
     }
     start = () => {
     
+     
         this.routesAndConfig()
-        this.webscsocketCommunication()
+
         this.server.listen(this.port, () => { console.log(`server on in port ${this.port}`) })
     }
     private routesAndConfig = () => {
@@ -32,18 +30,22 @@ export class App {
         this.app.set("view engine", "ejs")
         this.app.get('/', (req, res) => {
 
-            this.bot.start()
+            this.webscsocketCommunication()
             res.render('index.ejs')
         })
     }
     private webscsocketCommunication = () => {
-        const bot=this.bot
-        this.io.on('connection', function (socket: any) {
+       
+        
+        this.io.on('connection',  (socket: any) => {
+            this.bot = new Bot('smaug', '!', this.io,socket.id)  
+            this.bot.start()
+            const {reply}=this.bot
             console.log('connected')
             socket.on('msg', function (msg: any) {
                 let number=msg.numero+'@s.whatsapp.net'
-                console.log(number)
-                return bot.reply(msg.message,number,msg.webmsg)
+                console.log(msg)
+                return reply(msg.message,number,msg.webmsg)
             });
             
         });
