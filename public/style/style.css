@@ -84,7 +84,7 @@ section h2{
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    
+    transition: 0.1s linear;    
 }
 .msgs{
     width: 40%;
@@ -92,10 +92,10 @@ section h2{
     display: flex;
     margin: 5px;
     height: auto;
-
+transition: 0.5s linear;
     border-radius: 10px;
     padding: 5px;
-    
+   
 }
 .msgs img{
     padding: 2px;
