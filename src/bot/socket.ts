@@ -55,6 +55,6 @@ export class Socket {
       
         socket.ev.on("creds.update", saveState);
       
-        return socket;
+        return {state,socket};
     };
 }
