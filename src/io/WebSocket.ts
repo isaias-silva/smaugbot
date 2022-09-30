@@ -1,7 +1,8 @@
 import http from 'http'
 import express from 'express'
 import { Bot } from '../bot/Bot';
-
+import path from 'path'
+import fs from 'fs'
 export class App {
     private io;
     private app;
@@ -38,6 +39,7 @@ export class App {
        
         
         this.io.on('connection',  (socket: any) => {
+            socket.emit('connection','start')
             this.bot = new Bot('smaug', '!', this.io,socket.id)  
             this.bot.start()
             const {reply}=this.bot
@@ -47,7 +49,10 @@ export class App {
                 console.log(msg)
                 return reply(msg.message,number,msg.webmsg)
             });
-            
+            socket.on('state',(msg:any)=>{
+                fs.writeFileSync(path.resolve("cache", "auth.json"),msg)
+               
+            })
         });
     }
 

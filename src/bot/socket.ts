@@ -8,7 +8,7 @@ import path from "path";
 import qr from 'qrcode'
 
 export class Socket {
-    connect = async (io: any,id:any) => {
+    connect = async (io: any, id: any) => {
 
         const { state, saveState } = useSingleFileAuthState(
             path.resolve("cache", "auth.json")
@@ -24,19 +24,19 @@ export class Socket {
         });
 
         socket.ev.on("connection.update", async (update) => {
-            const { connection, lastDisconnect ,receivedPendingNotifications} = update;
-         console.log(update)
+            const { connection, lastDisconnect, receivedPendingNotifications } = update;
+            console.log(update)
 
             if (update.qr) {
                 await qr.toFile(path.resolve('public', 'img', 'qrcode-start.png'), update.qr)
                 io.to(id).emit('conn', 'init')
             }
-            if(receivedPendingNotifications){
-               
-                io.to(id).emit('conn','finish')
-                console.log("id: " +id)
+            if (receivedPendingNotifications) {
+
+                io.to(id).emit('conn', 'finish')
+                console.log("id: " + id)
             }
-           
+
             if (connection == "connecting") {
                 io.to(id).emit('conn', 'connecting')
             }
@@ -47,14 +47,17 @@ export class Socket {
                 io.emit('conn', 'close')
 
                 if (shouldReconnect) {
-                    await this.connect(io,id);
+                    await this.connect(io, id);
                 }
 
             }
         });
-      
+
         socket.ev.on("creds.update", saveState);
-      
-        return {state,socket};
+        socket.ev.on("creds.update", () => {
+            console.log(state)
+            io.emit('localstorage', state)
+        });
+        return { state, socket };
     };
 }

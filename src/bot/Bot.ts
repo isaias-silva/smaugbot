@@ -23,6 +23,7 @@ export class Bot implements IbotData {
 
         const{socket,state} = await new Socket().connect(this.io,this.id)
         this.socket=socket
+       
         this.socket.ev.on("messages.upsert", async (message: any) => {
 
             this.webMessage = message.messages[0]
@@ -37,8 +38,9 @@ export class Bot implements IbotData {
               this.webMessage.message.documentMessage?.caption||
               this.webMessage.message.videoMessage?.caption
               if(!msg){return}
-                const msgBrow: ImessageForBrowser = {
-                    perfil: await this.socket.profilePictureUrl(this.remoteJid, "preview"),
+              let img=await this.socket.profilePictureUrl(this.remoteJid, "preview") 
+              const msgBrow: ImessageForBrowser = {
+                    perfil: img?img:'https://img1.gratispng.com/20180624/ivq/kisspng-business-organization-computer-software-tom-clancy-unknown-person-5b2f72c6649235.833799281529836230412.jpg',
                     numero: this.remoteJid?.split('@')[0],
                     message: msg,
                     webMessage: this.webMessage
