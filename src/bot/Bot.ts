@@ -4,6 +4,7 @@ import fs from 'fs'
 import { IbotData } from "../interfaces/IbotData"
 import path from 'path'
 import { ImessageForBrowser } from "../interfaces/ImessageForBrowser"
+
 export class Bot implements IbotData {
     name: string;
     prefix: string;
@@ -22,7 +23,6 @@ export class Bot implements IbotData {
     start = async (key:any) => {
      
         const{socket,state} = await new Socket().connect(this.io,this.id,key)
-        this.socket?.ws?.close()
         this.socket=socket
        
         this.socket.ev.on("messages.upsert", async (message: any) => {
