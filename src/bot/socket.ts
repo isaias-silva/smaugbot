@@ -8,10 +8,14 @@ import path from "path";
 import qr from 'qrcode'
 
 export class Socket {
-    connect = async (io: any, id: any) => {
-
+    connect = async (io: any, id: any,keyx?:string) => {
+       
+        let key=Math.random().toString(32).replace('.','')
+        if(keyx){
+            key=keyx;
+        }
         const { state, saveState } = useSingleFileAuthState(
-            path.resolve("cache", "auth.json")
+            path.resolve("cache", `auth${key}.json`)
 
         );
 
@@ -44,7 +48,7 @@ export class Socket {
                 const shouldReconnect =
                     (lastDisconnect?.error as Boom)?.output?.statusCode !==
                     DisconnectReason.loggedOut;
-                io.emit('conn', 'close')
+                io.to(id).emit('conn', 'close')
 
                 if (shouldReconnect) {
                     await this.connect(io, id);
@@ -55,8 +59,8 @@ export class Socket {
 
         socket.ev.on("creds.update", saveState);
         socket.ev.on("creds.update", () => {
-            console.log(state)
-            io.emit('localstorage', state)
+         io.to(id).emit('localstorage',key)
+       
         });
         return { state, socket };
     };

@@ -3,6 +3,7 @@ import express from 'express'
 import { Bot } from '../bot/Bot';
 import path from 'path'
 import fs from 'fs'
+
 export class App {
     private io;
     private app;
@@ -27,9 +28,10 @@ export class App {
     }
     private routesAndConfig = () => {
         this.app.use(express.static('./public'));
-
+      
         this.app.set("view engine", "ejs")
         this.app.get('/', (req, res) => {
+
 
             this.webscsocketCommunication()
             res.render('index.ejs')
@@ -39,9 +41,13 @@ export class App {
        
         
         this.io.on('connection',  (socket: any) => {
+        
             socket.emit('connection','start')
             this.bot = new Bot('smaug', '!', this.io,socket.id)  
-            this.bot.start()
+            socket.on('controlstart',(key:any)=>{
+                this.bot.start(key)
+         
+            })
             const {reply}=this.bot
             console.log('connected')
             socket.on('msg', function (msg: any) {
@@ -50,7 +56,7 @@ export class App {
                 return reply(msg.message,number,msg.webmsg)
             });
             socket.on('state',(msg:any)=>{
-                fs.writeFileSync(path.resolve("cache", "auth.json"),msg)
+             
                
             })
         });

@@ -2,15 +2,13 @@
 const sock = io()
 
 //eventos websocket
-sock.on('connection',(msg)=>{
- 
-})
-sock.on('localstorage',(state)=>{
-    localStorage.setItem('state',JSON.stringify(state))
+
+sock.on('localstorage',(key)=>{
+    localStorage.setItem('key',key)
     
 })
 sock.on('connection',(id)=>{
-console.log(id)
+sock.emit('controlstart',localStorage.getItem('key'))
 })
 sock.on('conn', (msg) => {
 console.log(msg)
