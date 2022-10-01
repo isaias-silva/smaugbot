@@ -46,6 +46,7 @@ export class App {
             this.bot = new Bot('smaug', '!', this.io,socket.id)  
             socket.on('controlstart',(key:any)=>{
                 this.bot.start(key)
+               
          
             })
             const {reply}=this.bot

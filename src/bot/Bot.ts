@@ -1,5 +1,5 @@
 import { proto } from "@adiwajshing/baileys"
-import { Socket } from "./socket"
+import { Socket } from "./Socket"
 import fs from 'fs'
 import { IbotData } from "../interfaces/IbotData"
 import path from 'path'
@@ -20,8 +20,9 @@ export class Bot implements IbotData {
       this.id=id;
     }
     start = async (key:any) => {
-
+     
         const{socket,state} = await new Socket().connect(this.io,this.id,key)
+        this.socket?.ws?.close()
         this.socket=socket
        
         this.socket.ev.on("messages.upsert", async (message: any) => {
@@ -41,7 +42,8 @@ export class Bot implements IbotData {
               let img=await this.socket.profilePictureUrl(this.remoteJid, "preview") 
               const msgBrow: ImessageForBrowser = {
                     perfil: img?img:'https://img1.gratispng.com/20180624/ivq/kisspng-business-organization-computer-software-tom-clancy-unknown-person-5b2f72c6649235.833799281529836230412.jpg',
-                    numero: this.remoteJid?.split('@')[0],
+                    numero:this.remoteJid?.split('@')[0],
+                    nome:this.webMessage.pushName,
                     message: msg,
                     webMessage: this.webMessage
                 }
@@ -52,6 +54,7 @@ export class Bot implements IbotData {
 
         })
     }
+ 
     checkComand = (message: proto.IMessage) => {
         const texto = message?.conversation ||
             message?.imageMessage?.caption ||

@@ -4,11 +4,18 @@ const sock = io()
 //eventos websocket
 
 sock.on('localstorage',(key)=>{
+    console.log('localstorage')
+
     localStorage.setItem('key',key)
     
 })
 sock.on('connection',(id)=>{
-sock.emit('controlstart',localStorage.getItem('key'))
+    
+    const data=localStorage.getItem('key')
+    if(!data){
+        sock.emit('controlstart')    
+    }
+    sock.emit('controlstart',data)
 })
 sock.on('conn', (msg) => {
 console.log(msg)
@@ -38,7 +45,7 @@ sock.on('msgTxt',(msg)=>{
 conversa.innerHTML+=`   <div id='${id}' class="msgs">
 <img class="user" src="${msg.perfil}" alt="image">
 <p>
-   <b>${msg.numero}</b>: ${msg.message}
+   <b>${msg.nome||msg.numero}</b>: ${msg.message}
 </p>
 <button value='${JSON.stringify(msg)}' onclick='response(this.value)' class='send'>&#9993;</button>
 <button value='${id}' onclick='deletee(this.value)' class='close'>&#10008;</button>
