@@ -3,19 +3,9 @@ const sock = io()
 
 //eventos websocket
 
-sock.on('localstorage',(key)=>{
-    console.log('localstorage')
-
-    localStorage.setItem('key',key)
-    
-})
 sock.on('connection',(id)=>{
-    
-    const data=localStorage.getItem('key')
-    if(!data){
-        sock.emit('controlstart')    
-    }
-    sock.emit('controlstart',data)
+   
+    sock.emit('controlstart')
 })
 sock.on('conn', (msg) => {
 console.log(msg)

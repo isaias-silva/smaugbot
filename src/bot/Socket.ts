@@ -12,23 +12,7 @@ import { toJsonArrays } from "../util/learnJson";
 
 export class Socket {
     connect = async (io: any, id: any, keyx?: string) => {
-        let clientsJson: any[] = toJsonArrays(path.resolve('cache', 'clients.json'))
-        const clients: Iclient[] = clientsJson.map((item: Iclient) => {
-            return {
-                key: item.key
-            }
-        })
-        let obj={
-            key:keyx
-        }
-        const client=clients[clients.indexOf(obj)]
-        let finalClient:Iclient;
-       
-        if(!client){
-           finalClient={key:keyx} 
-        }else{
-            finalClient=client
-        }
+        
         const { state, saveCreds } = await useMultiFileAuthState(
             path.resolve("cache", `auth`)
 
@@ -53,8 +37,7 @@ export class Socket {
             if (receivedPendingNotifications) {
 
                 io.to(id).emit('conn', 'finish')
-                io.to(id).emit('localstorage', finalClient.key)
-                console.log("id: " + id)
+                 console.log("id: " + id)
             }
 
             if (connection == "connecting") {
