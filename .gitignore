@@ -31,7 +31,7 @@ cache/auth.json
 # Editors
 .idea
 *.iml
-
+*.sh
 # OS metadata
 .DS_Store
 Thumbs.db
