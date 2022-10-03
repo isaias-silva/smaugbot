@@ -22,7 +22,9 @@ console.log(msg)
 
     }
     if(msg=='finish'){
-        buttons.innerHTML=`<button id="disconnect">desconectar</button>`
+        buttons.innerHTML=`<button id="disconnect">desconectar</button>
+        <button id='disparo'>disparo</button>
+        `
         img.innerHTML=` <img class="on" src="./img/icon.png" alt="">`
         info.innerText=`🟢conectado`
     }
@@ -37,7 +39,7 @@ conversa.innerHTML+=`   <div id='${id}' class="msgs">
 <p>
    <b>${msg.nome||msg.numero}</b>: ${msg.message}
 </p>
-<button value='${JSON.stringify(msg)}' onclick='response(this.value)' class='send'>&#9993;</button>
+<button value='${JSON.stringify(msg)}' onclick='generateWidow(this.value)' class='send'>&#9993;</button>
 <button value='${id}' onclick='deletee(this.value)' class='close'>&#10008;</button>
 </div>
 </div>`
@@ -54,16 +56,36 @@ function deletee(id){
           }},2000)
     
 }
-function response(msg){
+function  response(msg){
+   
     const mesage=JSON.parse(msg)
-    let message=prompt(`digite a resposta para ${mesage.numero}`)
-    
-  
+   
+    let message=document.getElementById('msgres').value
+
     if(mesage.numero && message){
-       
+            
         const response={message,numero:mesage.numero,webmsg:mesage.webMessage}
        
         console.log(response)
         sock.emit('msg',response)
+       
     }
+destroyWidow()
+  
+}
+function generateWidow(msg){
+    const body=document.body
+    body.innerHTML+=`<div class='prompt'>
+    <h3> resposta para ${(JSON.parse(msg)).numero}</h3>
+    <textarea id='msgres' resize='none'>
+    </textarea>
+    <button type='submit' value='${msg}' onclick='response(this.value)' >enviar</button>
+    <button onclick='destroyWidow()'>cancelar</button>
+    </div>`
+
+}
+function destroyWidow(){
+    console.log('deleta')
+    const element=document.querySelector('.prompt')
+    element.parentNode.removeChild(element);
 }
