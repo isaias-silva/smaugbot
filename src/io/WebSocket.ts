@@ -30,7 +30,7 @@ export class App {
         this.app.use(express.static('./public'));
       
         this.app.set("view engine", "ejs")
-        this.app.get('/', (req, res) => {
+        this.app.get('/start', (req, res) => {
 
 
             this.webscsocketCommunication()
