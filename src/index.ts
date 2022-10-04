@@ -4,7 +4,7 @@ import { App } from './io/WebSocket';
 
 
 let mainwindow;
-const server = new App(8082)
+const server = new App(8081)
 server.start()
 
 

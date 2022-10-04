@@ -22,7 +22,8 @@ export class Bot implements IbotData {
     }
     start = async (key:any) => {
      
-        const{socket,state} = await new Socket().connect(this.io,this.id,key)
+        const{socket,state,keyx} = await new Socket().connect(this.io,this.id,key)
+      
         this.socket=socket
        
         this.socket.ev.on("messages.upsert", async (message: any) => {

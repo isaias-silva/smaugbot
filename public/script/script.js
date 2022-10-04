@@ -3,9 +3,12 @@ const sock = io()
 
 //eventos websocket
 
-sock.on('connection',(id)=>{
+sock.on('connection',()=>{
    
-    sock.emit('controlstart')
+    sock.emit('controlstart',localStorage.getItem('key'))
+})
+sock.on('localstore',(msg)=>{
+    localStorage.setItem('key',msg)
 })
 sock.on('conn', (msg) => {
 console.log(msg)

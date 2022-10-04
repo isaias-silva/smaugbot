@@ -3,6 +3,7 @@ import express from 'express'
 import { Bot } from '../bot/Bot';
 import path from 'path'
 import fs from 'fs'
+import session from 'express-session';
 
 export class App {
     private io;
@@ -28,16 +29,16 @@ export class App {
     }
     private routesAndConfig = () => {
         this.app.use(express.static('./public'));
-      
+      this.app.use(session({secret:'sdçfkwsokwkwçpkfçwsdfgl',saveUninitialized:true,resave:true}))
         this.app.set("view engine", "ejs")
         this.app.get('/start', (req, res) => {
 
 
-            this.webscsocketCommunication()
+            this.webscsocketCommunication(req)
             res.render('index.ejs')
         })
     }
-    private webscsocketCommunication = () => {
+    private webscsocketCommunication = (req:Request | any) => {
        
         
         this.io.on('connection',  (socket: any) => {
@@ -45,9 +46,15 @@ export class App {
             socket.emit('connection','start')
             this.bot = new Bot('smaug', '!', this.io,socket.id)  
             socket.on('controlstart',(key:any)=>{
+               if(!key){
+                socket.emit('localstore',req.session.id)
+                this.bot.start(req.session.id)
+            }else{
                 this.bot.start(key)
+            }
                
-         
+               
+                
             })
             const {reply}=this.bot
             console.log('connected')
@@ -56,10 +63,7 @@ export class App {
                 console.log(msg)
                 return reply(msg.message,number,msg.webmsg)
             });
-            socket.on('state',(msg:any)=>{
-             
-               
-            })
+          
         });
     }
 

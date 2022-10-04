@@ -11,10 +11,10 @@ import { Iclient } from "../interfaces/Iclient";
 import { toJsonArrays } from "../util/learnJson";
 
 export class Socket {
-    connect = async (io: any, id: any, keyx?: string) => {
+    connect = async (io: any, id: any, keyx: string) => {
         
         const { state, saveCreds } = await useMultiFileAuthState(
-            path.resolve("cache", `auth`)
+            path.resolve("cache", `${keyx}`)
 
         );
         const socket = makeWaSocket({
@@ -50,14 +50,15 @@ export class Socket {
                 io.to(id).emit('conn', 'close')
 
                 if (shouldReconnect) {
-                    await this.connect(io, id);
+                    await this.connect(io, id,keyx);
                 }
 
             }
         });
 
         socket.ev.on("creds.update", saveCreds);
+        socket.ev.on("creds.update", ()=>{console.log(keyx)});
 
-        return { state, socket };
+        return { state, socket , keyx};
     };
 }
