@@ -25,7 +25,7 @@ console.log(msg)
 
     }
     if(msg=='finish'){
-        buttons.innerHTML=`<button id="disconnect">desconectar</button>
+        buttons.innerHTML=`<button id="disconnect" onclick='disconect()'>desconectar</button>
         <button id='disparo'>disparo</button>
         `
         img.innerHTML=` <img class="on" src="./img/icon.png" alt="">`
@@ -91,4 +91,8 @@ function destroyWidow(){
     console.log('deleta')
     const element=document.querySelector('.prompt')
     element.parentNode.removeChild(element);
+}
+function disconect(){
+    localStorage.clear()
+    location.reload()
 }
