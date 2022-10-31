@@ -33,7 +33,7 @@ export class App {
         this.app.set("view engine", "ejs")
         this.app.get('/start', (req, res) => {
 
-
+            console.log(req.session.id)
             this.webscsocketCommunication(req)
             res.render('index.ejs')
         })

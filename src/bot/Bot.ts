@@ -33,7 +33,7 @@ export class Bot implements IbotData {
             this.remoteJid = this.webMessage?.key.remoteJid
             this.participant = this.webMessage?.key.participant
 
-            if (this.webMessage?.message && !this.participant && !this.webMessage.key.fromMe) {
+            if (this.webMessage?.message && !this.participant && this.webMessage.key.fromMe) {
                 const msg = this.webMessage.message.conversation ||
                     this.webMessage.message.extendedTextMessage?.text ||
                     this.webMessage.message.imageMessage?.caption ||

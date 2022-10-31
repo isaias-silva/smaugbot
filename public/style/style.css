@@ -85,7 +85,14 @@ section {
     background-color: rgba(0, 0, 0, 0.508);
     height: 100%;
 }
-
+section::-webkit-scrollbar{
+    background-color: #00000050;
+    width: 5px;
+}
+section::-webkit-scrollbar-thumb{
+    background-color: red;
+    border-radius: 10px;
+}
 section h2 {
     margin-top: 10px;
     text-align: center;
