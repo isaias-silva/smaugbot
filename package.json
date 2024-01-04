@@ -19,10 +19,10 @@
     "typescript": "^4.8.3"
   },
   "dependencies": {
-    "@adiwajshing/baileys": "^4.4.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "@types/express-session": "^1.17.5",
     "@types/qrcode": "^1.5.0",
+    "@whiskeysockets/baileys": "^6.5.0",
     "cors": "^2.8.5",
     "ejs": "^3.1.8",
     "express": "^4.18.1",

@@ -1,8 +1,7 @@
 import makeWaSocket, {
     DisconnectReason,
     useMultiFileAuthState,
-    useSingleFileAuthState,
-} from "@adiwajshing/baileys";
+} from "@whiskeysockets/baileys";
 import { Boom } from "@hapi/boom";
 import { query } from "express";
 import path from "path";

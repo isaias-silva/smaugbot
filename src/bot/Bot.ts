@@ -1,4 +1,4 @@
-import { proto } from "@adiwajshing/baileys"
+import { proto } from "@whiskeysockets/baileys"
 import { Socket } from "./Socket"
 import fs from 'fs'
 import { IbotData } from "../interfaces/IbotData"
